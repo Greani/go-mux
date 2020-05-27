@@ -242,7 +242,7 @@ func TestGetNonExistentProductName(t *testing.T) {
 
 func TestHalfPrices(t *testing.T) {
 	clearTable()
-	price:=20
+	price:=30
 	addProductWithDistinctPrice(price)
 	req, _ := http.NewRequest("GET", "/products/halfprice", nil)
 	response := executeRequest(req)
@@ -257,8 +257,8 @@ func TestHalfPrices(t *testing.T) {
 	var m map[string]interface{}
 	json.Unmarshal(response.Body.Bytes(), &m)
 
-	newPrice, _:=m["price"].(float64)
-	intPrice:=int(newPrice)
+	newPriceFloat, _:=m["price"].(float64)
+	intPrice:=int(newPriceFloat)
 	if intPrice != price/2 {
 		t.Errorf("Price wasn't halved")
 	}
